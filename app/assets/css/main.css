@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "tailwindcss-primeui";
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    background-color: #262626;
+  }
+}
+
+.border-default {
+  border-color: #3f3f46;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    background-color: white;
+  }
+}
