@@ -58,7 +58,7 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@primevue/nuxt-module',
         '@nuxtjs/tailwindcss',
-        'nuxt-auth-utils'
+        '@sidebase/nuxt-auth'
     ],
     primevue: {
         options: {
@@ -74,4 +74,21 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
+    auth: {
+        isEnabled: true,
+        globalAppMiddleware: true,
+        disableServerSideAuth: false,
+        originEnvKey: 'AUTH_ORIGIN',
+        baseURL: 'http://localhost:3000/api/auth',
+        provider: {
+            type: 'authjs',
+            trustHost: false,
+            defaultProvider: 'github',
+            addDefaultCallbackUrl: true
+        },
+        sessionRefresh: {
+            enablePeriodically: true,
+            enableOnWindowFocus: true,
+        },
+    }
 })

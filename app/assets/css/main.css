@@ -7,14 +7,16 @@
   :root {
     background-color: #262626;
   }
-}
-
-.border-default {
-  border-color: #3f3f46;
+  .border-default {
+    border-color: #3f3f46;
+  }
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     background-color: white;
+  }
+  .border-default {
+    border-color: #9b9c9e;
   }
 }

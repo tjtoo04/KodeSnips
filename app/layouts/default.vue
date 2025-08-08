@@ -6,7 +6,9 @@ const hasClicked = ref(false);
 <template>
   <div class="w-full h-full dark:bg-black">
     <!-- Header -->
-    <div class="p-4 border-b-[#3f3f46] border flex justify-between">
+    <div
+      class="p-4 dark:border-b-[#3f3f46] border-b-[#9b9c9e] border flex justify-between"
+    >
       <span class="flex justify-center items-center">
         <button @click="hasClicked = !hasClicked">
           <svg
