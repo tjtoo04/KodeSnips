@@ -1,4 +1,5 @@
 import GithubProvider from 'next-auth/providers/github'
+import Google from 'next-auth/providers/google'
 import { NuxtAuthHandler } from '#auth'
 import 'dotenv/config'
 
@@ -17,6 +18,11 @@ export default NuxtAuthHandler({
         GithubProvider.default({
             clientId: process.env.NUXT_OAUTH_GITHUB_CLIENT_ID,
             clientSecret: process.env.NUXT_OAUTH_GITHUB_CLIENT_SECRET
+        }),
+        // @ts-expect-error Use .default here for it to work during SSR.
+        Google.default({
+            clientId: process.env.NUXT_OAUTH_GOOGLE_ID,
+            clientSecret: process.env.NUXT_OAUTH_GOOGLE_SECRET
         })
     ],
     session: {

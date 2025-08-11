@@ -19,6 +19,10 @@ const loginOptions: loginOpts[] = [
     label: "Login with GitHub",
     type: "github",
   },
+  {
+    label: "Login with Google",
+    type: "google",
+  },
 ];
 </script>
 
