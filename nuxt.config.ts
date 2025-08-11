@@ -51,7 +51,7 @@ const Noir = definePreset(Lara, {
 
 export default defineNuxtConfig({
     ssr: false,
-    css: ['~/assets/css/main.css'],
+    css: ['~/assets/css/main.css', '~/assets/css/page-transition.css'],
     compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
     modules: [

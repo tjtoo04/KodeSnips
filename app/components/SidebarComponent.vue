@@ -30,9 +30,9 @@ const navBarItems: navItems[] = [
   },
 ];
 
-const triggerSignIn = async (type: string) => {
-  await signIn(type);
-};
+const username: ComputedRef<string | null | undefined> = computed(() => {
+  return data.value && data.value.user ? data.value.user.name : "User";
+});
 </script>
 
 <template>
@@ -46,8 +46,8 @@ const triggerSignIn = async (type: string) => {
   >
     <!-- Profile -->
     <div class="flex gap-2 items-center pt-2">
-      <Avatar shape="circle" size="normal" label="T" />
-      <span> Name </span>
+      <Avatar shape="circle" size="normal" :label="username!.charAt(0)" />
+      <span> {{ username }} </span>
     </div>
 
     <Divider />
@@ -61,12 +61,19 @@ const triggerSignIn = async (type: string) => {
       </div>
     </div>
     <!-- Login/Logout -->
-    <div v-if="status == 'authenticated'" class="w-full">
+    <div v-if="status === 'authenticated'" class="w-full">
       <Button @click="() => signOut()" class="w-full">Logout</Button>
     </div>
     <div v-else class="w-full">
-      <Button @click="triggerSignIn('github')" class="w-full"
-        >Login with GitHub</Button
+      <Button
+        @click="
+          () => {
+            $emit('isRedirecting');
+            navigateTo('/login');
+          }
+        "
+        class="w-full"
+        >Log In</Button
       >
     </div>
   </div>

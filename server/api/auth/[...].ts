@@ -22,4 +22,9 @@ export default NuxtAuthHandler({
     session: {
         strategy: 'database'
     },
+    callbacks: {
+        async redirect({ url, baseUrl }) {
+            return baseUrl
+        }
+    },
 })

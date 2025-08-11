@@ -1,6 +1,11 @@
 <template>
   <NuxtLayout>
-    <NuxtPage />
+    <NuxtPage
+      :transition="{
+        name: 'fade',
+        mode: 'out-in',
+      }"
+    />
     <Toast />
   </NuxtLayout>
 </template>

@@ -1,9 +1,6 @@
 <script setup>
 definePageMeta({
-  auth: {
-    unauthenticatedOnly: false,
-    navigateUnauthenticatedTo: "/signin",
-  },
+  auth: true,
 });
 </script>
 
