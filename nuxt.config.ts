@@ -58,7 +58,8 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@primevue/nuxt-module',
         '@nuxtjs/tailwindcss',
-        '@sidebase/nuxt-auth'
+        '@sidebase/nuxt-auth',
+        'nuxt-auth-utils'
     ],
     primevue: {
         options: {
@@ -87,7 +88,7 @@ export default defineNuxtConfig({
             addDefaultCallbackUrl: true
         },
         sessionRefresh: {
-            enablePeriodically: true,
+            enablePeriodically: false,
             enableOnWindowFocus: true,
         },
     }

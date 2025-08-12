@@ -2,6 +2,7 @@
 import { ref } from "vue";
 
 const hasClicked = ref(false);
+const route = useRoute();
 </script>
 <template>
   <div class="w-full h-full dark:bg-black">
@@ -50,6 +51,8 @@ const hasClicked = ref(false);
       :hasClicked="hasClicked"
     />
 
-    <slot />
+    <div :key="route.fullPath">
+      <slot />
+    </div>
   </div>
 </template>

@@ -7,12 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Team {
+    id String @id @default(cuid())
+    teamName String?
+    members TeamMember[]
+}
+
+model TeamMember {
+  userId   String
+  teamId   String
+  role     String?
+  joinedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@id([userId, teamId]) // composite primary key
+}
+
 model User {
   id            String   @id @default(cuid())
   name          String?
   email         String?  @unique
   emailVerified DateTime?
   image         String?
+  teamMembers TeamMember[]
   accounts      Account[]
   sessions      Session[]
 }

@@ -30,11 +30,13 @@ const loginOptions: loginOpts[] = [
   <div class="flex flex-col justify-center items-center w-full h-screen gap-2">
     <!-- Login options -->
     <div class="grid gap-4 items-center">
-      <Button
-        v-for="login in loginOptions"
-        :label="login.label"
-        @click="signIn(login.type)"
-      />
+      <span class="w-full" v-for="login in loginOptions">
+        <Button
+          class="w-full"
+          :label="login.label"
+          @click="signIn(login.type)"
+        />
+      </span>
     </div>
   </div>
 </template>

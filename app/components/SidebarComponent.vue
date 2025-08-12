@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
+
 const {
   status,
   data,
@@ -15,6 +16,7 @@ interface navItems {
   name: string;
   link: string;
 }
+
 const props = defineProps({
   hasClicked: Boolean,
 });
@@ -30,9 +32,14 @@ const navBarItems: navItems[] = [
   },
 ];
 
-const username: ComputedRef<string | null | undefined> = computed(() => {
-  return data.value && data.value.user ? data.value.user.name : "User";
+// Safer computed property
+const username = computed(() => {
+  if (!data.value?.user?.name) return "User";
+  return data.value.user.name;
 });
+
+// Add loading state check
+const isLoading = computed(() => status.value === "loading");
 </script>
 
 <template>
@@ -46,22 +53,32 @@ const username: ComputedRef<string | null | undefined> = computed(() => {
   >
     <!-- Profile -->
     <div class="flex gap-2 items-center pt-2">
-      <Avatar shape="circle" size="normal" :label="username!.charAt(0)" />
-      <span> {{ username }} </span>
+      <Avatar
+        v-if="!isLoading"
+        shape="circle"
+        size="normal"
+        :label="username.charAt(0)"
+      />
+      <div v-else class="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+      <span>{{ username }}</span>
     </div>
 
     <Divider />
 
     <!-- Navigation Items -->
     <div class="flex flex-col w-full h-full">
-      <div class="py-3" v-for="item in navBarItems">
-        <NuxtLink class="" @click="$emit('isRedirecting')" :to="item.link">{{
-          item.name
-        }}</NuxtLink>
+      <div class="py-3" v-for="item in navBarItems" :key="item.name">
+        <NuxtLink class="" @click="$emit('isRedirecting')" :to="item.link">
+          {{ item.name }}
+        </NuxtLink>
       </div>
     </div>
+
     <!-- Login/Logout -->
-    <div v-if="status === 'authenticated'" class="w-full">
+    <div v-if="isLoading" class="w-full">
+      <Button disabled class="w-full">Loading...</Button>
+    </div>
+    <div v-else-if="status === 'authenticated'" class="w-full">
       <Button @click="() => signOut()" class="w-full">Logout</Button>
     </div>
     <div v-else class="w-full">
@@ -73,10 +90,9 @@ const username: ComputedRef<string | null | undefined> = computed(() => {
           }
         "
         class="w-full"
-        >Log In</Button
       >
+        Log In
+      </Button>
     </div>
   </div>
 </template>
-
-<style scoped></style>
