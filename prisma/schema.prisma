@@ -7,10 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Snippet {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  language    String
+  description String?
+  tags        Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  isPublic    Boolean  @default(false)
+  version     Int      @default(1)
+}
+
 model Team {
-    id String @id @default(cuid())
-    teamName String?
-    members TeamMember[]
+  id       String       @id @default(cuid())
+  teamName String?
+  members  TeamMember[]
 }
 
 model TeamMember {
@@ -26,29 +41,30 @@ model TeamMember {
 }
 
 model User {
-  id            String   @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String?  @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
-  teamMembers TeamMember[]
+  teamMembers   TeamMember[]
   accounts      Account[]
   sessions      Session[]
+  snippets      Snippet[]
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id])
 

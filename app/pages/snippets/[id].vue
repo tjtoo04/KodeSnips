@@ -2,6 +2,10 @@
 definePageMeta({
   auth: true,
 });
+
+const router = useRoute();
+
+console.log(router.params);
 </script>
 
 <template>

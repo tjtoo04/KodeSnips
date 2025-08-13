@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
-const {
-  status,
-  data,
-  lastRefreshedAt,
-  getCsrfToken,
-  getProviders,
-  getSession,
-  signIn,
-  signOut,
-} = useAuth();
+const { status, data, signOut } = useAuth();
 
-interface navItems {
+interface NavItems {
   name: string;
   link: string;
 }
@@ -21,14 +12,47 @@ const props = defineProps({
   hasClicked: Boolean,
 });
 
-const navBarItems: navItems[] = [
+const navBarItems: NavItems[] = [
   {
     name: "Home",
     link: "/",
   },
+];
+
+const snippetRef = ref();
+const teamsRef = ref();
+
+const togglePopover = (event: unknown, type: string) => {
+  switch (type) {
+    case "snippets":
+      snippetRef.value.toggle(event);
+      break;
+    case "teams":
+      teamsRef.value.toggle(event);
+    default:
+      break;
+  }
+};
+
+const snippetMenuItems: NavItems[] = [
   {
-    name: "Snippets",
+    name: "Your Snippets",
     link: "/snippets",
+  },
+  {
+    name: "Create Snippets",
+    link: "/snippets/create",
+  },
+];
+
+const teamsMenuItems: NavItems[] = [
+  {
+    name: "Your Teams",
+    link: "/teams",
+  },
+  {
+    name: "Create or Join a Team",
+    link: "/teams/list",
   },
 ];
 
@@ -67,11 +91,69 @@ const isLoading = computed(() => status.value === "loading");
 
     <!-- Navigation Items -->
     <div class="flex flex-col w-full h-full">
-      <div class="py-3" v-for="item in navBarItems" :key="item.name">
-        <NuxtLink class="" @click="$emit('isRedirecting')" :to="item.link">
-          {{ item.name }}
-        </NuxtLink>
+      <div class="py-2" v-for="item in navBarItems" :key="item.name">
+        <Button class="w-full" variant="outlined">
+          <NuxtLink
+            class="w-full flex justify-start"
+            @click="$emit('isRedirecting')"
+            :to="item.link"
+          >
+            {{ item.name }}
+          </NuxtLink>
+        </Button>
       </div>
+      <!-- Snippets -->
+      <div class="py-2">
+        <Button
+          @click="(e) => togglePopover(e, 'snippets')"
+          class="w-full justify-start"
+          variant="outlined"
+        >
+          Snippets
+        </Button>
+      </div>
+      <Popover ref="snippetRef">
+        <div class="py-2" v-for="item in snippetMenuItems" :key="item.name">
+          <NuxtLink
+            class="w-full flex"
+            @click="
+              () => {
+                snippetRef.hide();
+                $emit('isRedirecting');
+              }
+            "
+            :to="item.link"
+          >
+            {{ item.name }}
+          </NuxtLink>
+        </div>
+      </Popover>
+      <!-- Teams -->
+      <div class="py-2">
+        <Button
+          @click="(e) => togglePopover(e, 'teams')"
+          class="w-full justify-start"
+          variant="outlined"
+        >
+          Teams
+        </Button>
+      </div>
+      <Popover ref="teamsRef">
+        <div class="py-2" v-for="item in teamsMenuItems" :key="item.name">
+          <NuxtLink
+            class="w-full flex"
+            @click="
+              () => {
+                teamsRef.hide();
+                $emit('isRedirecting');
+              }
+            "
+            :to="item.link"
+          >
+            {{ item.name }}
+          </NuxtLink>
+        </div>
+      </Popover>
     </div>
 
     <!-- Login/Logout -->
